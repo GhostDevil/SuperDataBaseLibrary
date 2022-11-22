@@ -110,7 +110,7 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     SqlDataReader sd = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                     conn.Close();
@@ -129,7 +129,7 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     cmd.Parameters.AddRange(paras);
                     SqlDataReader sr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -152,9 +152,9 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlDataAdapter dap = new SqlDataAdapter(sql, Conn))
+                using (SqlDataAdapter dap = new(sql, Conn))
                 {
-                    DataTable dt = new DataTable();
+                    DataTable dt = new();
                     dap.Fill(dt);
                     conn.Close();
                     return dt;
@@ -172,12 +172,12 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     cmd.Parameters.AddRange(paras);
-                    using (SqlDataAdapter dap = new SqlDataAdapter(cmd))
+                    using (SqlDataAdapter dap = new(cmd))
                     {
-                        DataTable dt = new DataTable();
+                        DataTable dt = new();
                         dap.Fill(dt);
                         cmd.Parameters.Clear();
                         return dt;
@@ -198,7 +198,7 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     int result = cmd.ExecuteNonQuery();
                     conn.Close();
@@ -217,7 +217,7 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     cmd.Parameters.AddRange(paras);
                     int result = cmd.ExecuteNonQuery();
@@ -241,7 +241,7 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(procName, Conn))
+                using (SqlCommand cmd = new(procName, Conn))
                 {
                     cmd.Parameters.AddRange(paras);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -376,7 +376,7 @@ namespace SuperDataBase
             }
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     int result = cmd.ExecuteNonQuery();
                     conn.Close();
@@ -404,7 +404,7 @@ namespace SuperDataBase
                     sql = string.Format("select * into {0} from {1}", saveTableName, tableName);
                 else
                     sql = string.Format("select * into {0} from {1} where 1==2", saveTableName, tableName);
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     int result = cmd.ExecuteNonQuery();
                     conn.Close();
@@ -425,7 +425,7 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     object result = cmd.ExecuteScalar();
                     conn.Close();
@@ -444,7 +444,7 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(sql, Conn))
+                using (SqlCommand cmd = new(sql, Conn))
                 {
                     cmd.Parameters.AddRange(paras);
                     object result = cmd.ExecuteScalar();
@@ -468,13 +468,13 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(procName, Conn))
+                using (SqlCommand cmd = new(procName, Conn))
                 {
                     cmd.Parameters.AddRange(paras);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlDataAdapter dap = new SqlDataAdapter(cmd))
+                    using (SqlDataAdapter dap = new(cmd))
                     {
-                        DataTable dt = new DataTable();
+                        DataTable dt = new();
                         dap.Fill(dt);
                         cmd.Parameters.Clear();
                         return dt;
@@ -496,13 +496,13 @@ namespace SuperDataBase
         {
             try
             {
-                using (SqlCommand cmd = new SqlCommand(procName, Conn))
+                using (SqlCommand cmd = new(procName, Conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddRange(paras);
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    using (SqlDataAdapter da = new(cmd))
                     {
-                        DataTable dt = new DataTable();
+                        DataTable dt = new();
                         da.Fill(dt);
                         cmd.Parameters.Clear();
                         return dt;
@@ -527,13 +527,13 @@ namespace SuperDataBase
             {
                 rowCount = 0;
                 pageCount = 0;
-                using (SqlCommand cmd = new SqlCommand(procName, Conn))
+                using (SqlCommand cmd = new(procName, Conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddRange(paras);
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    using (SqlDataAdapter da = new(cmd))
                     {
-                        DataTable dt = new DataTable();
+                        DataTable dt = new();
                         da.Fill(dt);
                         rowCount = Convert.ToInt32(cmd.Parameters[string.Format("@{0}", rowCountParasName)].Value);
                         pageCount = Convert.ToInt32(cmd.Parameters[string.Format("@{0}", pageCountParasName)].Value);
@@ -560,13 +560,13 @@ namespace SuperDataBase
             {
                 rowCount = 0;
                 pageCount = 0;
-                using (SqlCommand cmd = new SqlCommand(procName, Conn))
+                using (SqlCommand cmd = new(procName, Conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddRange(paras);
-                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    using (SqlDataAdapter da = new(cmd))
                     {
-                        DataTable dt = new DataTable();
+                        DataTable dt = new();
                         da.Fill(dt);
                         cmd.Parameters.Clear();
                         rowCount = Convert.ToInt32(cmd.Parameters[string.Format("@{0}", rowCountParasName)].Value);
@@ -593,7 +593,7 @@ namespace SuperDataBase
             try
             {
                 tran = Conn.BeginTransaction(TranName);
-                using (SqlCommand cmd = new SqlCommand(sqlStr, Conn, tran))
+                using (SqlCommand cmd = new(sqlStr, Conn, tran))
                 {
                     int n = cmd.ExecuteNonQuery();
                     if (n > 0)
@@ -629,9 +629,9 @@ namespace SuperDataBase
         public static T ExecuteEntity<T>(string commandText, CommandType commandType, params SqlParameter[] param)
         {
             T obj = default(T);
-            using (SqlConnection connection = new SqlConnection(connStr))
+            using (SqlConnection connection = new(connStr))
             {
-                using (SqlCommand cmd = new SqlCommand(commandText, connection))
+                using (SqlCommand cmd = new(commandText, connection))
                 {
                     cmd.CommandType = commandType;
                     cmd.Parameters.AddRange(param);
@@ -695,10 +695,10 @@ namespace SuperDataBase
         /// <returns>泛型集合对象</returns>
         public static List<T> ExecuteList<T>(string commandText, CommandType commandType, params SqlParameter[] param)
         {
-            List<T> list = new List<T>();
-            using (SqlConnection connection = new SqlConnection(connStr))
+            List<T> list = new();
+            using (SqlConnection connection = new(connStr))
             {
-                using (SqlCommand cmd = new SqlCommand(commandText, connection))
+                using (SqlCommand cmd = new(commandText, connection))
                 {
                     try
                     {

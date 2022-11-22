@@ -190,7 +190,7 @@ namespace SuperDataBase
         public static int ExecuteNonQuery(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
             if( connectionString == null || connectionString.Length == 0 ) throw new ArgumentNullException( "connectionString" );
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
                 return ExecuteNonQuery(connection, commandType, commandText, commandParameters);
@@ -262,7 +262,7 @@ namespace SuperDataBase
         {    
             if( connection == null ) throw new ArgumentNullException( "connection" );
             // 创建SqlCommand命令,并进行预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             bool mustCloseConnection = false;
             PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters, out mustCloseConnection );
             
@@ -340,7 +340,7 @@ namespace SuperDataBase
             if( transaction == null ) throw new ArgumentNullException( "transaction" );
             if( transaction != null && transaction.Connection == null ) throw new ArgumentException( "The transaction was rollbacked or commited, please provide an open transaction.", "transaction" );
             // 预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             bool mustCloseConnection = false;
             PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters, out mustCloseConnection );
                 
@@ -420,7 +420,7 @@ namespace SuperDataBase
         {
             if( connectionString == null || connectionString.Length == 0 ) throw new ArgumentNullException( "connectionString" );
             // 创建并打开数据库连接对象,操作完成释放对象.
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
                 // 调用指定数据库连接字符串重载方法.
@@ -491,14 +491,14 @@ namespace SuperDataBase
         {
             if( connection == null ) throw new ArgumentNullException( "connection" );
             // 预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             bool mustCloseConnection = false;
             PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters, out mustCloseConnection );
                 
             // 创建SqlDataAdapter和DataSet.
-            using( SqlDataAdapter da = new SqlDataAdapter(cmd) )
+            using( SqlDataAdapter da = new(cmd) )
             {
-                DataSet ds = new DataSet();
+                DataSet ds = new();
                 // 填充DataSet.
                 da.Fill(ds);
                 
@@ -572,14 +572,14 @@ namespace SuperDataBase
             if( transaction == null ) throw new ArgumentNullException( "transaction" );
             if( transaction != null && transaction.Connection == null ) throw new ArgumentException( "The transaction was rollbacked or commited, please provide an open transaction.", "transaction" );
             // 预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             bool mustCloseConnection = false;
             PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters, out mustCloseConnection );
                 
             // 创建 DataAdapter & DataSet
-            using( SqlDataAdapter da = new SqlDataAdapter(cmd) )
+            using( SqlDataAdapter da = new(cmd) )
             {
-                DataSet ds = new DataSet();
+                DataSet ds = new();
                 da.Fill(ds);
                 cmd.Parameters.Clear();
                 return ds;
@@ -650,7 +650,7 @@ namespace SuperDataBase
             if( connection == null ) throw new ArgumentNullException( "connection" );
             bool mustCloseConnection = false;
             // 创建命令
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             try
             {
                 PrepareCommand(cmd, connection, transaction, commandType, commandText, commandParameters, out mustCloseConnection );
@@ -931,7 +931,7 @@ namespace SuperDataBase
         {
             if( connectionString == null || connectionString.Length == 0 ) throw new ArgumentNullException( "connectionString" );
             // 创建并打开数据库连接对象,操作完成释放对象.
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
                 // 调用指定数据库连接字符串重载方法.
@@ -1007,7 +1007,7 @@ namespace SuperDataBase
         {
             if( connection == null ) throw new ArgumentNullException( "connection" );
             // 创建SqlCommand命令,并进行预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             bool mustCloseConnection = false;
             PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters, out mustCloseConnection );
                 
@@ -1089,7 +1089,7 @@ namespace SuperDataBase
             if( transaction == null ) throw new ArgumentNullException( "transaction" );
             if( transaction != null && transaction.Connection == null ) throw new ArgumentException( "The transaction was rollbacked or commited, please provide an open transaction.", "transaction" );
             // 创建SqlCommand命令,并进行预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             bool mustCloseConnection = false;
             PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters, out mustCloseConnection );
                 
@@ -1172,7 +1172,7 @@ namespace SuperDataBase
             if( connection == null ) throw new ArgumentNullException( "connection" );
             bool mustCloseConnection = false;
             // 创建SqlCommand命令,并进行预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             try
             {
                 PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters, out mustCloseConnection );
@@ -1260,7 +1260,7 @@ namespace SuperDataBase
             if( transaction == null ) throw new ArgumentNullException( "transaction" );
             if( transaction != null && transaction.Connection == null ) throw new ArgumentException( "The transaction was rollbacked or commited, please provide an open transaction.", "transaction" );
             // 创建SqlCommand命令,并进行预处理
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new();
             bool mustCloseConnection = false;
             PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters, out mustCloseConnection );
             
@@ -1328,7 +1328,7 @@ namespace SuperDataBase
             if( dataSet == null ) throw new ArgumentNullException( "dataSet" );
             
             // 创建并打开数据库连接对象,操作完成释放对象.
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
                 // 调用指定数据库连接字符串重载方法.
@@ -1358,7 +1358,7 @@ namespace SuperDataBase
             if( connectionString == null || connectionString.Length == 0 ) throw new ArgumentNullException( "connectionString" );
             if( dataSet == null ) throw new ArgumentNullException( "dataSet" );
             // 创建并打开数据库连接对象,操作完成释放对象.
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
                 // 调用指定数据库连接字符串重载方法.
@@ -1389,7 +1389,7 @@ namespace SuperDataBase
             if( connectionString == null || connectionString.Length == 0 ) throw new ArgumentNullException( "connectionString" );
             if( dataSet == null ) throw new ArgumentNullException( "dataSet" );
             // 创建并打开数据库连接对象,操作完成释放对象.
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
                 // 调用指定数据库连接字符串重载方法.
@@ -1586,12 +1586,12 @@ namespace SuperDataBase
             if( connection == null ) throw new ArgumentNullException( "connection" );
             if( dataSet == null ) throw new ArgumentNullException( "dataSet" );
             // 创建SqlCommand命令,并进行预处理
-            SqlCommand command = new SqlCommand();
+            SqlCommand command = new();
             bool mustCloseConnection = false;
             PrepareCommand(command, connection, transaction, commandType, commandText, commandParameters, out mustCloseConnection );
                 
             // 执行命令
-            using( SqlDataAdapter dataAdapter = new SqlDataAdapter(command) )
+            using( SqlDataAdapter dataAdapter = new(command) )
             {
                 
                 // 追加表映射
@@ -1636,7 +1636,7 @@ namespace SuperDataBase
             if( updateCommand == null ) throw new ArgumentNullException( "updateCommand" );
             if( tableName == null || tableName.Length == 0 ) throw new ArgumentNullException( "tableName" ); 
             // 创建SqlDataAdapter,当操作完成后释放.
-            using (SqlDataAdapter dataAdapter = new SqlDataAdapter())
+            using (SqlDataAdapter dataAdapter = new())
             {
                 // 设置数据适配器命令
                 dataAdapter.UpdateCommand = updateCommand;
@@ -1667,7 +1667,7 @@ namespace SuperDataBase
             if( connection == null ) throw new ArgumentNullException( "connection" );
             if( spName == null || spName.Length == 0 ) throw new ArgumentNullException( "spName" );
             // 创建命令
-            SqlCommand cmd = new SqlCommand(spName, connection) { CommandType = CommandType.StoredProcedure };
+            SqlCommand cmd = new(spName, connection) { CommandType = CommandType.StoredProcedure };
             // 如果有参数值
             if ((sourceColumns != null) && (sourceColumns.Length > 0)) 
             {
@@ -2119,7 +2119,7 @@ namespace SuperDataBase
         {
             if( connection == null ) throw new ArgumentNullException( "connection" );
             if( spName == null || spName.Length == 0 ) throw new ArgumentNullException( "spName" );
-            SqlCommand cmd = new SqlCommand(spName, connection) { CommandType = CommandType.StoredProcedure };
+            SqlCommand cmd = new(spName, connection) { CommandType = CommandType.StoredProcedure };
             connection.Open();
             // 检索cmd指定的存储过程的参数信息,并填充到cmd的Parameters参数集中.
             SqlCommandBuilder.DeriveParameters(cmd);
@@ -2225,7 +2225,7 @@ namespace SuperDataBase
         {
             if( connectionString == null || connectionString.Length == 0 ) throw new ArgumentNullException( "connectionString" );
             if( spName == null || spName.Length == 0 ) throw new ArgumentNullException( "spName" );
-            using(SqlConnection connection = new SqlConnection(connectionString))
+            using(SqlConnection connection = new(connectionString))
             {
                 return GetSpParameterSetInternal(connection, spName, includeReturnValueParameter);
             }

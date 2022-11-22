@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32819.101
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperDataBaseLibrary", "SuperDataBaseLibrary.csproj", "{B0C529D4-F6D1-4BEA-B3E6-BC23CEF9C0AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperDataBaseLibrary", "SuperDataBaseLibrary.csproj", "{B0C529D4-F6D1-4BEA-B3E6-BC23CEF9C0AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperFrameworkLibrary", "..\SuperFrameworkLibrary\SuperFrameworkLibrary.csproj", "{C3A737F0-8DE7-429A-9A00-B3882D4EE2DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B0C529D4-F6D1-4BEA-B3E6-BC23CEF9C0AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0C529D4-F6D1-4BEA-B3E6-BC23CEF9C0AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0C529D4-F6D1-4BEA-B3E6-BC23CEF9C0AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3A737F0-8DE7-429A-9A00-B3882D4EE2DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A737F0-8DE7-429A-9A00-B3882D4EE2DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A737F0-8DE7-429A-9A00-B3882D4EE2DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3A737F0-8DE7-429A-9A00-B3882D4EE2DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

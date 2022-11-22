@@ -54,9 +54,9 @@ namespace SuperDataBase
         /// <returns>返回一个值，这意味着受影响的行数</returns>
         public static int ExecuteNonQuery(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
+            MySqlCommand cmd = new();
 
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (MySqlConnection conn = new(connectionString))
             {
                 PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
                 int val = cmd.ExecuteNonQuery();
@@ -81,9 +81,9 @@ namespace SuperDataBase
         /// <returns>成功返回true，否则失败</returns>
         public static bool ExecuteNonQuery(CommandType cmdType, string connectionString, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
+            MySqlCommand cmd = new();
 
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            using (MySqlConnection conn = new(connectionString))
             {
                 PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
                 try
@@ -112,7 +112,7 @@ namespace SuperDataBase
         /// <returns>返回一个值，这意味着受影响的行数</returns>
         public static int ExecuteNonQuery(MySqlConnection conn, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
+            MySqlCommand cmd = new();
             PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
             int val = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
@@ -130,7 +130,7 @@ namespace SuperDataBase
         /// <returns>返回一个值，这意味着受影响的行数 </returns>
         public static int ExecuteNonQuery(MySqlTransaction trans, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
+            MySqlCommand cmd = new();
             PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, commandParameters);
             int val = cmd.ExecuteNonQuery();
             cmd.Parameters.Clear();
@@ -147,8 +147,8 @@ namespace SuperDataBase
         /// <returns>返回SqlDataReader类数据采集</returns>
         public static MySqlDataReader ExecuteReader(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
-            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlCommand cmd = new();
+            MySqlConnection conn = new(connectionString);
 
             // we use a try/catch here because if the method throws an exception we want to 
             // close the connection throw code, because no datareader will exist, hence the 
@@ -177,9 +177,9 @@ namespace SuperDataBase
         /// <returns>返回对象类型的值</returns>
         public static object ExecuteScalar(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
+            MySqlCommand cmd = new();
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new(connectionString))
             {
                 PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
                 object val = cmd.ExecuteScalar();
@@ -196,8 +196,8 @@ namespace SuperDataBase
         /// <returns>返回DataSet</returns>
         public static DataSet GetDataSet(string connectionString, string cmdText, params MySqlParameter[] commandParameters)
         {
-            DataSet retSet = new DataSet();
-            using (MySqlDataAdapter msda = new MySqlDataAdapter(cmdText, connectionString))
+            DataSet retSet = new();
+            using (MySqlDataAdapter msda = new(cmdText, connectionString))
             {
                 msda.Fill(retSet);
             }
@@ -407,12 +407,14 @@ namespace SuperDataBase
         /// <returns>执行trascation结果（成功：true|失败：false）</returns>
         public static bool ExecuteTransaction(string connectionString, CommandType cmdType, string[] cmdTexts, params MySqlParameter[][] commandParameters)
         {
-            MySqlConnection myConnection = new MySqlConnection(connectionString);       //get the connection object
+            MySqlConnection myConnection = new(connectionString);       //get the connection object
             myConnection.Open();                                                        //open the connection
             MySqlTransaction myTrans = myConnection.BeginTransaction();                 //begin a trascation
-            MySqlCommand cmd = new MySqlCommand();
-            cmd.Connection = myConnection;
-            cmd.Transaction = myTrans;
+            MySqlCommand cmd = new()
+            {
+                Connection = myConnection,
+                Transaction = myTrans
+            };
 
             try
             {

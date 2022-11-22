@@ -35,9 +35,9 @@ namespace SuperDataBase
         public static int ExecteNonQuery(string connectionString, CommandType cmdType, string cmdText, params SqlParameter[] commandParameters)
         {
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new(connectionString))
             {
-                using (SqlCommand cmd = new SqlCommand())
+                using (SqlCommand cmd = new())
                 {
                     //通过PrePareCommand方法将参数逐个加入到SqlCommand的参数集合中 
                     PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
@@ -131,7 +131,7 @@ namespace SuperDataBase
         {
             #region 检查是否存在数据dbName
 
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE master ");
             dbSql.Append("  GO");
@@ -205,7 +205,7 @@ namespace SuperDataBase
         /// <param name="dbName">数据库名称</param> 
         public static void DropDatabase(string dbName)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE master ");
             dbSql.Append("  GO  ");
@@ -224,7 +224,7 @@ namespace SuperDataBase
         /// <param name="dbFileName">路经包括盘符和文件名以及扩展名称一般为“_dat”</param> 
         public static void BackupDatabase(string dbName, string dbFileName)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE master ");
             dbSql.Append("  GO  ");
@@ -250,7 +250,7 @@ namespace SuperDataBase
         /// <param name="dbFileName">路经包括盘符和文件名以及扩展名称一般为“_dat”</param> 
         public static void RestoreDatabase(string dbName, string dbFileName)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE master ");
             dbSql.Append("  GO  ");
@@ -276,7 +276,7 @@ namespace SuperDataBase
         /// <param name="logFileName">日志文件的路径包括盘符和文件名以及扩展名</param> 
         public static void OnlineDatabase(string newDbName, string dbFileName, string logFileName)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE master ");
             dbSql.Append("  GO  ");
@@ -300,7 +300,7 @@ namespace SuperDataBase
         /// <param name="dbName">数据库名称</param> 
         public static void OfflineDatabase(string dbName)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE master ");
             dbSql.Append("  GO  ");
@@ -320,7 +320,7 @@ namespace SuperDataBase
         /// <param name="userName">登录用户名</param> 
         public static void ResetPassword(string newPassword, string userName)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE master ");
             dbSql.Append("  GO  ");
@@ -346,7 +346,7 @@ namespace SuperDataBase
         /// <param name="userName">登录用户名</param> 
         public static void CreateDbUser(string dbName, string userName, string passWord)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
             //设置当前数据库 
             dbSql.Append("USE  " + dbName);
             dbSql.Append("  GO  ");
@@ -374,7 +374,7 @@ namespace SuperDataBase
         /// <param name="userName">用户名称</param> 
         public static void AddRoleToDbUser(string dbName, string userName)
         {
-            StringBuilder dbSql = new StringBuilder();
+            StringBuilder dbSql = new();
 
             //设置当前数据库 
             dbSql.Append("USE " + dbName);

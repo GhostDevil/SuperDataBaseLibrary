@@ -22,7 +22,7 @@ namespace SuperDataBase
         {
             if (table != null && table.Rows.Count > 0)
             {
-                using (SqlBulkCopy bulk = new SqlBulkCopy(connectstring))
+                using (SqlBulkCopy bulk = new(connectstring))
                 {
                     bulk.BatchSize = batchSize;
                     bulk.BulkCopyTimeout = 100;
@@ -41,18 +41,18 @@ namespace SuperDataBase
         /// <param name="TabelName">数据表名</param>
         public static void UpdateData<T>(string connectstring, List<T> list, string tableName)
         {
-            DataTable dt = new DataTable("MyTable");
+            DataTable dt = new("MyTable");
             dt = ConvertToDataTable(list);
-            using (SqlConnection conn = new SqlConnection(connectstring))
+            using (SqlConnection conn = new(connectstring))
             {
-                using (SqlCommand command = new SqlCommand("", conn))
+                using (SqlCommand command = new("", conn))
                 {
                     try
                     {
                         conn.Open();
                         command.CommandText = "CREATE TABLE #TmpTable(...)";
                         command.ExecuteNonQuery();
-                        using (SqlBulkCopy bulkcopy = new SqlBulkCopy(conn))
+                        using (SqlBulkCopy bulkcopy = new(conn))
                         {
                             bulkcopy.BulkCopyTimeout = 660;
                             bulkcopy.DestinationTableName = tableName;
@@ -84,9 +84,9 @@ namespace SuperDataBase
         /// <param name="tableName">数据表名</param>
         public static void InsertData<T>(string connectstring, List<T> list, string tableName)
         {
-            DataTable dt = new DataTable("MyTable");
+            DataTable dt = new("MyTable");
             dt = ConvertToDataTable(list);
-            using (SqlBulkCopy bulkcopy = new SqlBulkCopy(connectstring))
+            using (SqlBulkCopy bulkcopy = new(connectstring))
             {
                 bulkcopy.BulkCopyTimeout = 660;
                 bulkcopy.DestinationTableName = tableName;
@@ -102,7 +102,7 @@ namespace SuperDataBase
         public static DataTable ConvertToDataTable<T>(IList<T> data)
         {
             PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            DataTable table = new DataTable();
+            DataTable table = new();
             foreach (PropertyDescriptor prop in properties)
                 table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
             foreach (T item in data)

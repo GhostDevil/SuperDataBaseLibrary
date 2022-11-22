@@ -103,9 +103,9 @@ namespace SuperDataBase
         /// <returns>影响的记录数</returns>
         public static int ExecuteSql(string SQLString)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand(SQLString, connection))
+                using (OracleCommand cmd = new(SQLString, connection))
                 {
                     try
                     {
@@ -134,11 +134,11 @@ namespace SuperDataBase
         /// <returns>影响的记录数</returns>
         public static int ExecuteSql(string SQLString, string content)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand(SQLString, connection))
+                using (OracleCommand cmd = new(SQLString, connection))
                 {
-                    OracleParameter myParameter = new OracleParameter("@content", OracleDbType.NVarchar2)
+                    OracleParameter myParameter = new("@content", OracleDbType.NVarchar2)
                     {
                         Value = content
                     };
@@ -209,10 +209,10 @@ namespace SuperDataBase
         /// <param name="SQLStringList">多条SQL语句</param>		
         public static void ExecuteSqlTran(ArrayList SQLStringList)
         {
-            using (OracleConnection conn = new OracleConnection(connectionString))
+            using (OracleConnection conn = new(connectionString))
             {
                 conn.Open();
-                using (OracleCommand cmd = new OracleCommand())
+                using (OracleCommand cmd = new())
                 {
                     cmd.Connection = conn;
                     OracleTransaction tx = conn.BeginTransaction();
@@ -244,12 +244,12 @@ namespace SuperDataBase
         /// <param name="SQLStringList">SQL语句的哈希表（key为sql语句，value是该语句的OracleParameter[]）</param>
         public static void ExecuteSqlTran(Hashtable SQLStringList)
         {
-            using (OracleConnection conn = new OracleConnection(connectionString))
+            using (OracleConnection conn = new(connectionString))
             {
                 conn.Open();
                 using (OracleTransaction trans = conn.BeginTransaction())
                 {
-                    OracleCommand cmd = new OracleCommand();
+                    OracleCommand cmd = new();
                     try
                     {
                         //循环
@@ -282,11 +282,11 @@ namespace SuperDataBase
         /// <returns>影响的记录数</returns>
         public static int ExecuteSqlInsertImg(string strSQL, byte[] fs)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand(strSQL, connection))
+                using (OracleCommand cmd = new(strSQL, connection))
                 {
-                    OracleParameter myParameter = new OracleParameter("@fs", OracleDbType.LongRaw)
+                    OracleParameter myParameter = new("@fs", OracleDbType.LongRaw)
                     {
                         Value = fs
                     };
@@ -316,8 +316,8 @@ namespace SuperDataBase
         {
             try
             {
-                OracleConnection connection = new OracleConnection(connectionString);
-                OracleCommand cmd = new OracleCommand(strSQL, connection);
+                OracleConnection connection = new(connectionString);
+                OracleCommand cmd = new(strSQL, connection);
                 connection.Open();
                 OracleDataReader myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 return myReader;
@@ -338,8 +338,8 @@ namespace SuperDataBase
         {
             try
             {
-                OracleConnection connection = new OracleConnection(connectionString);
-                OracleCommand cmd = new OracleCommand();
+                OracleConnection connection = new(connectionString);
+                OracleCommand cmd = new();
                 PrepareCommand(cmd, connection, null, SQLString, cmdParms);
                 OracleDataReader myReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 cmd.Parameters.Clear();
@@ -360,13 +360,13 @@ namespace SuperDataBase
         /// <returns>返回DataSet</returns>
         public static DataSet QueryDataSet(string SQLString)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                DataSet ds = new DataSet();
+                DataSet ds = new();
                 try
                 {
                     connection.Open();
-                    OracleDataAdapter command = new OracleDataAdapter(SQLString, connection);
+                    OracleDataAdapter command = new(SQLString, connection);
                     command.Fill(ds, "ds");
                 }
                 catch
@@ -384,13 +384,13 @@ namespace SuperDataBase
         /// <returns>返回DataSet</returns>
         public static DataSet QueryDataSet(string SQLString, params OracleParameter[] cmdParms)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                OracleCommand cmd = new OracleCommand();
+                OracleCommand cmd = new();
                 PrepareCommand(cmd, connection, null, SQLString, cmdParms);
-                using (OracleDataAdapter da = new OracleDataAdapter(cmd))
+                using (OracleDataAdapter da = new(cmd))
                 {
-                    DataSet ds = new DataSet();
+                    DataSet ds = new();
                     try
                     {
                         da.Fill(ds, "ds");
@@ -415,9 +415,9 @@ namespace SuperDataBase
         /// <returns>查询结果（object）</returns>
         public static object GetSingle(string SQLString, params OracleParameter[] cmdParms)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand())
+                using (OracleCommand cmd = new())
                 {
                     try
                     {
@@ -443,9 +443,9 @@ namespace SuperDataBase
         /// <returns>查询结果（object）</returns>
         public static object GetSingle(string SQLString)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand(SQLString, connection))
+                using (OracleCommand cmd = new(SQLString, connection))
                 {
                     try
                     {
@@ -477,7 +477,7 @@ namespace SuperDataBase
         {
             try
             {
-                OracleConnection connection = new OracleConnection(connectionString);
+                OracleConnection connection = new(connectionString);
                 OracleDataReader returnReader;
                 connection.Open();
                 OracleCommand command = BuildQueryCommand(connection, storedProcName, parameters);
@@ -498,11 +498,11 @@ namespace SuperDataBase
         /// <returns>返回DataSet</returns>
         public static DataSet RunProcedure(string storedProcName, IDataParameter[] parameters, string tableName)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                DataSet dataSet = new DataSet();
+                DataSet dataSet = new();
                 connection.Open();
-                OracleDataAdapter sqlDA = new OracleDataAdapter
+                OracleDataAdapter sqlDA = new()
                 {
                     SelectCommand = BuildQueryCommand(connection, storedProcName, parameters)
                 };
@@ -520,7 +520,7 @@ namespace SuperDataBase
         /// <returns>返回受影响行数</returns>
         public static int RunProcedure(string storedProcName, IDataParameter[] parameters, out int rowsAffected)
         {
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
                 int result;
                 connection.Open();
@@ -546,9 +546,9 @@ namespace SuperDataBase
             T obj = default(T);
             try
             {
-                using (OracleConnection connection = new OracleConnection(connectionString))
+                using (OracleConnection connection = new(connectionString))
                 {
-                    using (OracleCommand cmd = new OracleCommand(commandText, connection))
+                    using (OracleCommand cmd = new(commandText, connection))
                     {
                         cmd.CommandType = CommandType.Text;
                         connection.Open();
@@ -619,9 +619,9 @@ namespace SuperDataBase
             T obj = default(T);
             try
             {
-                using (OracleConnection connection = new OracleConnection(connectionString))
+                using (OracleConnection connection = new(connectionString))
                 {
-                    using (OracleCommand cmd = new OracleCommand(commandText, connection))
+                    using (OracleCommand cmd = new(commandText, connection))
                     {
                         cmd.CommandType = commandType;
                         cmd.Parameters.AddRange(param);
@@ -654,11 +654,11 @@ namespace SuperDataBase
         /// <returns>泛型集合对象</returns>
         public static List<T> ExecuteList<T>(string commandText, CommandType commandType, params OracleParameter[] param)
         {
-            List<T> list = new List<T>();
+            List<T> list = new();
 
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand(commandText, connection))
+                using (OracleCommand cmd = new(commandText, connection))
                 {
                     try
                     {
@@ -700,10 +700,10 @@ namespace SuperDataBase
         /// <returns>泛型集合对象</returns>
         public static List<T> ExecuteList<T>(string commandText)
         {
-            List<T> list = new List<T>();
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            List<T> list = new();
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand(commandText, connection))
+                using (OracleCommand cmd = new(commandText, connection))
                 {
                     try
                     {
@@ -743,10 +743,10 @@ namespace SuperDataBase
         /// <returns>泛型集合对象</returns>
         public static BindingList<T> ExecuteBindingList<T>(string commandText)
         {
-            BindingList<T> list = new BindingList<T>();
-            using (OracleConnection connection = new OracleConnection(connectionString))
+            BindingList<T> list = new();
+            using (OracleConnection connection = new(connectionString))
             {
-                using (OracleCommand cmd = new OracleCommand(commandText, connection))
+                using (OracleCommand cmd = new(commandText, connection))
                 {
                     try
                     {
@@ -790,7 +790,7 @@ namespace SuperDataBase
         /// <returns>OracleCommand</returns>
         private static OracleCommand BuildQueryCommand(OracleConnection connection, string storedProcName, IDataParameter[] parameters)
         {
-            OracleCommand command = new OracleCommand(storedProcName, connection)
+            OracleCommand command = new(storedProcName, connection)
             {
                 CommandType = CommandType.StoredProcedure
             };

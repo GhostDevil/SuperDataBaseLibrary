@@ -30,9 +30,9 @@ namespace SuperDataBase
         {
             if (string.IsNullOrEmpty(sql))
                 return -1;
-            using (SQLiteConnection conn = new SQLiteConnection(strConn))
+            using (SQLiteConnection conn = new(strConn))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                using (SQLiteCommand cmd = new(sql, conn))
                 {
                     if (parms != null)
                     {
@@ -57,9 +57,9 @@ namespace SuperDataBase
         {
             if (string.IsNullOrEmpty(sql))
                 return -1;
-            using (SQLiteConnection conn = new SQLiteConnection(strConn))
+            using (SQLiteConnection conn = new(strConn))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                using (SQLiteCommand cmd = new(sql, conn))
                 {
                     if (parms != null)
                     {
@@ -84,9 +84,9 @@ namespace SuperDataBase
         /// <returns></returns>
         public static SQLiteDataReader ExecuteReader(string sql, params SQLiteParameter[] parms)
         {
-            using (SQLiteConnection conn = new SQLiteConnection(strConn))
+            using (SQLiteConnection conn = new(strConn))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                using (SQLiteCommand cmd = new(sql, conn))
                 {
                     if (parms != null)
                     {
@@ -112,12 +112,12 @@ namespace SuperDataBase
         {
             if (sql == null)
                 return false;
-            using (SQLiteConnection conn = new SQLiteConnection(strConn))
+            using (SQLiteConnection conn = new(strConn))
             {
                 using (DbTransaction transaction = conn.BeginTransaction())
                 {
                     int o = 0;
-                    using (SQLiteCommand command = new SQLiteCommand(conn))
+                    using (SQLiteCommand command = new(conn))
                     {
                         for (int i = 0; i < sql.Count; i++)
                         {
@@ -159,7 +159,7 @@ namespace SuperDataBase
             /// <summary>
             /// 参数列表
             /// </summary>
-            public List<SQLiteParameter> paramList = new List<SQLiteParameter>();
+            public List<SQLiteParameter> paramList = new();
         }
         #endregion
     }
